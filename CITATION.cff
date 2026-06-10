@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software in your research or teaching, please cite it as below."
+type: software
+title: "MIRL Collate: close looking, side by side"
+abstract: >-
+  A no-build comparison viewer for close looking: two to four images side by
+  side or overlaid (curtain, onion skin, blink, difference), with linked deep
+  zoom, annotations, and citations. IIIF-native.
+authors:
+  - family-names: "O'Brien"
+    given-names: "Jeff"
+    email: "jeffobrien@ucsb.edu"
+    affiliation: >-
+      Material / Image Research Lab, Department of History of Art &
+      Architecture, University of California, Santa Barbara
+version: "1.0.0"
+date-released: "2026-06-10"
+license: MIT
+repository-code: "https://github.com/mirl-ucsb/mirl-collate"
+url: "https://mirl-ucsb.github.io/mirl-collate/"
+keywords:
+  - art history
+  - digital humanities
+  - IIIF
+  - image comparison
+  - close looking
+  - annotation
+  - cultural heritage
+  - minimal computing

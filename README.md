@@ -165,6 +165,19 @@ mirl-collate/
 
 ---
 
+## Citing this tool
+
+A tool that writes citations should be citable itself. This repository carries
+a [`CITATION.cff`](CITATION.cff) file, so GitHub's **Cite this repository**
+button (in the sidebar of the repo page) will give you a reference in APA or
+BibTeX form. In a note, cite it as:
+
+> Jeff O'Brien, *MIRL Collate: close looking, side by side*, version 1.0.0,
+> Material / Image Research Lab, UC Santa Barbara, 2026,
+> https://github.com/mirl-ucsb/mirl-collate.
+
+---
+
 Built at the [Material / Image Research Lab](https://mirl.arthistory.ucsb.edu),
 Department of History of Art & Architecture, UC Santa Barbara.
 Released under the MIT License. OpenSeadragon is BSD-licensed.
