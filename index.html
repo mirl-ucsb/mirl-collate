@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIRL Collate — close looking, side by side</title>
+<meta name="description" content="Compare two or more images closely: deep zoom, synchronized panning, swipe and onion-skin overlays, annotations, and citations. A no-build tool from the Material / Image Research Lab, UCSB.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="app">
+  <h1>MIRL&nbsp;Collate</h1>
+  <span class="tag">close looking, side by side</span>
+  <span class="spacer"></span>
+  <a href="https://mirl.arthistory.ucsb.edu" target="_blank" rel="noopener">Material&nbsp;/&nbsp;Image Research Lab</a>
+</header>
+
+<div class="toolbar">
+  <div class="group">
+    <span class="label">Viewing</span>
+    <div class="seg" id="view-seg">
+      <button data-view="side" class="on">Side by side</button>
+      <button data-view="grid">Grid of 4</button>
+      <button data-view="overlay">Overlay</button>
+    </div>
+  </div>
+
+  <div class="group" id="sync-group">
+    <button class="btn toggle on" id="sync-btn" title="Pan and zoom every image together">Linked pan &amp; zoom</button>
+  </div>
+
+  <div class="group" id="overlay-group" style="display:none">
+    <span class="label">Overlay</span>
+    <div class="seg" id="ov-seg">
+      <button data-ov="curtain" class="on">Curtain</button>
+      <button data-ov="onion">Onion skin</button>
+      <button data-ov="blink">Blink</button>
+      <button data-ov="diff">Difference</button>
+    </div>
+    <label class="inline" id="ov-opacity-wrap" style="display:none">Top
+      <input type="range" id="ov-opacity" min="0" max="100" value="50">
+    </label>
+    <label class="inline" id="ov-blink-wrap" style="display:none">Speed
+      <input type="range" id="ov-blink" min="300" max="2000" step="100" value="900">
+    </label>
+  </div>
+
+  <div class="group">
+    <button class="btn toggle" id="annotate-btn" title="Click an image to drop a numbered marker">Annotate</button>
+    <button class="btn" id="reset-btn" title="Recenter and fit every image">Reset view</button>
+  </div>
+
+  <span style="flex:1"></span>
+
+  <div class="group">
+    <div class="menu-wrap">
+      <button class="btn stamp" id="export-btn">Export &#9662;</button>
+      <div class="menu hidden" id="export-menu">
+        <button data-act="png">Save comparison as PNG</button>
+        <button data-act="project">Save project (.json)</button>
+        <button data-act="load">Open project (.json)</button>
+        <hr>
+        <button data-act="anno-json">Export annotations (.json)</button>
+        <button data-act="anno-csv">Export annotations (.csv)</button>
+      </div>
+    </div>
+    <button class="btn stamp" id="sidebar-btn" title="Show or hide the panel">Panel</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="stage" id="stage">
+    <div class="viewers side" id="viewers"></div>
+    <div class="curtain" id="curtain" style="left:50%"></div>
+  </div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="tabs">
+      <button data-tab="images" class="on">Images</button>
+      <button data-tab="anno">Annotations</button>
+      <button data-tab="cite">Cite</button>
+    </div>
+
+    <div class="tab-body" id="tab-images">
+      <p class="hint" style="margin-top:0">Load up to four images. Drag a file straight onto any frame, paste a web address, or point to a <strong>IIIF</strong> image or manifest from a museum or library. Fill in the details once and they flow into the citation.</p>
+      <div id="slot-cards"></div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-anno">
+      <p class="hint" style="margin-top:0">Turn on <strong>Annotate</strong>, then click any image to drop a numbered marker. Markers stay pinned to the picture as you zoom.</p>
+      <div id="anno-list"></div>
+      <p class="hint" id="anno-empty">No markers yet.</p>
+    </div>
+
+    <div class="tab-body hidden" id="tab-cite">
+      <div class="field">
+        <label>Which image</label>
+        <select id="cite-slot"></select>
+      </div>
+      <div class="field">
+        <label>Style</label>
+        <select id="cite-style">
+          <option value="chicago">Chicago (note)</option>
+          <option value="mla">MLA</option>
+          <option value="apa">APA</option>
+          <option value="bibtex">BibTeX</option>
+        </select>
+      </div>
+      <div class="cite-out" id="cite-out">Add an image and its details to build a citation.</div>
+      <button class="btn" id="cite-copy" style="margin-top:9px">Copy citation</button>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="file-input" accept="image/*" class="sr">
+<input type="file" id="project-input" accept="application/json,.json" class="sr">
+
+<script src="vendor/openseadragon.min.js"></script>
+<script src="js/viewers.js"></script>
+<script src="js/overlay.js"></script>
+<script src="js/annotations.js"></script>
+<script src="js/citation.js"></script>
+<script src="js/exporters.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
