@@ -23,7 +23,7 @@ MC.Exporters = (function () {
 
   function snapshotCanvas() {
     const panes = Array.from(document.querySelectorAll('#viewers .pane'));
-    const cells = panes.map(p => ({ pane: p, canvas: p.querySelector('canvas') })).filter(c => c.canvas);
+    const cells = panes.map((p, i) => ({ pane: p, idx: i, canvas: p.querySelector('canvas') })).filter(c => c.canvas);
     if (!cells.length) return null;
     const cw = cells[0].canvas.width, ch = cells[0].canvas.height;
     const gap = Math.max(6, Math.round(cw * 0.012));
@@ -36,7 +36,8 @@ MC.Exporters = (function () {
     const ctx = out.getContext('2d');
     ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, out.width, out.height);
     cells.forEach((cell, idx) => {
-      const col = idx % cols, row = Math.floor(idx / cols);
+      const pos = S.view === 'grid' ? cell.idx : idx;
+      const col = pos % cols, row = Math.floor(pos / cols);
       const dx = col * (cw + gap), dy = row * (ch + gap);
       try { ctx.drawImage(cell.canvas, dx, dy, cw, ch); } catch (e) {}
       const viewer = S.view === 'overlay'
@@ -51,10 +52,14 @@ MC.Exporters = (function () {
   function savePNG() {
     const out = snapshotCanvas();
     if (!out) { MC.util.toast('Load an image first.'); return; }
-    out.toBlob(blob => {
-      if (!blob) { MC.util.toast('Export blocked: a remote image did not allow copying (CORS).'); return; }
-      MC.util.download('mirl-collate.png', blob);
-    }, 'image/png');
+    try {
+      out.toBlob(blob => {
+        if (!blob) { MC.util.toast('Export blocked: a remote image did not allow copying (CORS).'); return; }
+        MC.util.download('mirl-collate.png', blob);
+      }, 'image/png');
+    } catch (e) {
+      MC.util.toast('Export blocked: a remote image did not allow copying (CORS).');
+    }
   }
 
   function projectJSON() {

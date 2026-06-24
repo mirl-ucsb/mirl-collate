@@ -242,6 +242,7 @@ MC.Viewers = (function () {
 
   /* ----- (re)build the layout ----- */
   function destroy() {
+    if (S.overlay && S.overlay._blink) { clearInterval(S.overlay._blink); S.overlay._blink = null; }
     for (const v of S.viewers) try { v.destroy(); } catch (e) {}
     S.viewers = [];
     if (S.overlayViewer) { try { S.overlayViewer.destroy(); } catch (e) {} S.overlayViewer = null; }
