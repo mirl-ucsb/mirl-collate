@@ -230,12 +230,25 @@ MC.Viewers = (function () {
     if (syncing || !S.sync || S.view === 'overlay') return;
     syncing = true;
     const z = src.viewport.getZoom();
-    const c = src.viewport.getCenter();
+    /* centre as a fraction of the source image, so panning lands on the same
+       relative point even when the two images differ in size or aspect */
+    let frac = null;
+    const srcItem = src.world.getItemCount() ? src.world.getItemAt(0) : null;
+    if (srcItem) {
+      const ip = srcItem.viewportToImageCoordinates(src.viewport.getCenter());
+      const sz = srcItem.getContentSize();
+      if (sz.x && sz.y) frac = { x: ip.x / sz.x, y: ip.y / sz.y };
+    }
     for (const v of S.viewers) {
       if (v === src || !v.world.getItemCount()) continue;
       if (Math.abs(v.viewport.getZoom() - z) > EPS) v.viewport.zoomTo(z, null, true);
-      const tc = v.viewport.getCenter();
-      if (Math.abs(tc.x - c.x) > EPS || Math.abs(tc.y - c.y) > EPS) v.viewport.panTo(c, true);
+      if (frac) {
+        const item = v.world.getItemAt(0);
+        const tsz = item.getContentSize();
+        const target = item.imageToViewportCoordinates(frac.x * tsz.x, frac.y * tsz.y);
+        const tc = v.viewport.getCenter();
+        if (Math.abs(tc.x - target.x) > EPS || Math.abs(tc.y - target.y) > EPS) v.viewport.panTo(target, true);
+      }
     }
     syncing = false;
   }
@@ -281,6 +294,7 @@ MC.Viewers = (function () {
       return;
     }
     if (!S.slots[i].meta.label && source.name) S.slots[i].meta.label = source.name.replace(/\.[^.]+$/, '');
+    if (!S.slots[i].meta.accessed) S.slots[i].meta.accessed = new Date().toISOString().slice(0, 10);
     rebuild();
     MC.App.refreshSidebar();
   }

@@ -126,7 +126,7 @@ MC.App = (function () {
     if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
     const i = parseInt(sel.value, 10);
     const style = document.getElementById('cite-style').value;
-    const built = MC.Citation.build(S.slots[i].meta, style);
+    const built = MC.Citation.build(S.slots[i].meta, style, i);
     out.innerHTML = built.html; citeText = built.text;
   }
   function copyCite() {
