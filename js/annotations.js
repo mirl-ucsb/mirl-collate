@@ -71,6 +71,28 @@ MC.Annotations = (function () {
           MC.util.h('div', { class: 'meta' }, 'on ' + MC.Viewers.paneName(a.slot))),
         MC.util.h('button', { class: 'x', title: 'Delete marker', onclick: () => remove(a.id) }, '×')));
     });
+    // pixel distance between consecutive markers placed on the same image
+    if (S.annotations.length >= 2) {
+      const dl = MC.util.h('div', { class: 'anno-dist' });
+      dl.append(MC.util.h('div', { class: 'anno-dist-head' }, 'Distance, image pixels'));
+      for (let i = 1; i < S.annotations.length; i++) {
+        const d = pixelDist(S.annotations[i - 1], S.annotations[i]);
+        const val = d == null ? 'different images' : d.toLocaleString() + ' px';
+        dl.append(MC.util.h('div', { class: 'anno-dist-row' },
+          i + ' → ' + (i + 1) + '  ', MC.util.h('span', { class: 'd' }, val)));
+      }
+      box.append(dl);
+    }
+  }
+
+  /* straight-line distance between two markers in the image's own pixels;
+     null when they sit on different images or the image size is unknown */
+  function pixelDist(a, b) {
+    if (a.slot !== b.slot) return null;
+    const slot = S.slots[a.slot];
+    const W = slot && slot.pixel ? slot.pixel.x : null;
+    if (!W) return null;
+    return Math.round(W * Math.hypot(b.x - a.x, b.y - a.y));
   }
 
   function rows() {
