@@ -102,6 +102,7 @@ MC.App = (function () {
     document.querySelectorAll('#ov-seg button').forEach(b => b.classList.toggle('on', b.dataset.ov === mode));
     document.getElementById('ov-opacity-wrap').style.display = mode === 'onion' ? '' : 'none';
     document.getElementById('ov-blink-wrap').style.display = mode === 'blink' ? '' : 'none';
+    document.getElementById('ov-gain-wrap').style.display = mode === 'diff' ? '' : 'none';
     MC.Overlay.setMode(mode);
   }
 
@@ -162,6 +163,8 @@ MC.App = (function () {
     document.getElementById('ov-opacity-wrap').style.display = S.overlay.mode === 'onion' ? '' : 'none';
     document.getElementById('ov-blink').value = S.overlay.blinkMs || 900;
     document.getElementById('ov-blink-wrap').style.display = S.overlay.mode === 'blink' ? '' : 'none';
+    document.getElementById('ov-gain').value = S.overlay.diffGain || 1;
+    document.getElementById('ov-gain-wrap').style.display = S.overlay.mode === 'diff' ? '' : 'none';
     document.getElementById('annotate-btn').classList.toggle('on', S.annotate);
     document.getElementById('stage').classList.toggle('annotate', S.annotate);
     document.getElementById('stage').classList.toggle('curtain-on', S.view === 'overlay' && S.overlay.mode === 'curtain');
@@ -172,6 +175,7 @@ MC.App = (function () {
     document.querySelectorAll('#ov-seg button').forEach(b => b.addEventListener('click', () => setOverlayMode(b.dataset.ov)));
     document.getElementById('ov-opacity').addEventListener('input', e => MC.Overlay.setOpacity(e.target.value / 100));
     document.getElementById('ov-blink').addEventListener('input', e => MC.Overlay.setBlinkMs(+e.target.value));
+    document.getElementById('ov-gain').addEventListener('input', e => MC.Overlay.setDiffGain(+e.target.value));
     document.getElementById('annotate-btn').addEventListener('click', toggleAnnotate);
     document.getElementById('reset-btn').addEventListener('click', MC.Viewers.resetView);
     document.getElementById('sidebar-btn').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('collapsed'));

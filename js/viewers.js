@@ -50,7 +50,7 @@ MC.state = {
   slots: [newSlot(0), newSlot(1), newSlot(2), newSlot(3)],
   viewers: [],           // active OSD viewers for side / grid
   overlayViewer: null,   // single OSD viewer for overlay mode
-  overlay: { mode: 'curtain', split: 0.5, opacity: 0.5 },
+  overlay: { mode: 'curtain', split: 0.5, opacity: 0.5, diffGain: 1 },
   annotations: [],       // { id, slot, x, y, label, note }  x,y in viewport coords
   annoSeq: 0,
 };

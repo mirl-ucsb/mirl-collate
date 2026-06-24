@@ -39,7 +39,8 @@ MC.Exporters = (function () {
       const pos = S.view === 'grid' ? cell.idx : idx;
       const col = pos % cols, row = Math.floor(pos / cols);
       const dx = col * (cw + gap), dy = row * (ch + gap);
-      try { ctx.drawImage(cell.canvas, dx, dy, cw, ch); } catch (e) {}
+      const gain = (S.view === 'overlay' && S.overlay.mode === 'diff') ? (S.overlay.diffGain || 1) : 1;
+      try { if (gain > 1) ctx.filter = 'brightness(' + gain + ')'; ctx.drawImage(cell.canvas, dx, dy, cw, ch); ctx.filter = 'none'; } catch (e) { ctx.filter = 'none'; }
       const viewer = S.view === 'overlay'
         ? S.overlayViewer
         : S.viewers.find(v => v.element && v.element.closest('.pane') === cell.pane);
@@ -66,7 +67,7 @@ MC.Exporters = (function () {
     return JSON.stringify({
       tool: 'mirl-collate', version: 1, savedAt: new Date().toISOString(),
       view: S.view, sync: S.sync,
-      overlay: { mode: S.overlay.mode, split: S.overlay.split, opacity: S.overlay.opacity, blinkMs: S.overlay.blinkMs || 900 },
+      overlay: { mode: S.overlay.mode, split: S.overlay.split, opacity: S.overlay.opacity, blinkMs: S.overlay.blinkMs || 900, diffGain: S.overlay.diffGain || 1 },
       slots: S.slots.map(s => ({
         source: s.source && (s.source.kind === 'file'
           ? { kind: 'file', name: s.source.name }

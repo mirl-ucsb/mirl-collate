@@ -74,6 +74,7 @@ MC.Overlay = (function () {
     top.setClip(null);
     top.setCompositeOperation(null);
     top.setOpacity(1);
+    applyGain();
 
     if (S.overlay.mode === 'curtain') {
       applyCurtain();
@@ -122,9 +123,22 @@ MC.Overlay = (function () {
     window.addEventListener('pointerup', up);
   }
 
+  /* difference mode is near-black on similar images; a brightness gain on the
+     composited canvas makes the difference legible without altering the pixels */
+  function diffCanvas() {
+    const v = S.overlayViewer;
+    return v && v.element ? v.element.querySelector('canvas') : null;
+  }
+  function applyGain() {
+    const cv = diffCanvas(); if (!cv) return;
+    const g = (S.view === 'overlay' && S.overlay.mode === 'diff') ? (S.overlay.diffGain || 1) : 1;
+    cv.style.filter = g > 1 ? 'brightness(' + g + ')' : '';
+  }
+
   function setMode(mode) { S.overlay.mode = mode; applyMode(); }
   function setOpacity(v) { S.overlay.opacity = v; if (S.overlay.mode === 'onion') applyMode(); }
   function setBlinkMs(ms) { S.overlay.blinkMs = ms; if (S.overlay.mode === 'blink') applyMode(); }
+  function setDiffGain(v) { S.overlay.diffGain = v; applyGain(); }
 
-  return { build, applyMode, applyCurtain, setMode, setOpacity, setBlinkMs };
+  return { build, applyMode, applyCurtain, setMode, setOpacity, setBlinkMs, setDiffGain };
 })();
