@@ -78,9 +78,16 @@ MC.App = (function () {
   }
 
   /* ---------- views / toggles ---------- */
+  /* mirror the visual 'on' state onto aria-pressed for every toggle button */
+  function reflectPressed() {
+    document.querySelectorAll('#view-seg button, #ov-seg button, .tabs button, #sync-btn, #annotate-btn').forEach(b => {
+      b.setAttribute('aria-pressed', b.classList.contains('on') ? 'true' : 'false');
+    });
+  }
   function setView(view) {
     S.view = view;
     document.querySelectorAll('#view-seg button').forEach(b => b.classList.toggle('on', b.dataset.view === view));
+    reflectPressed();
     document.getElementById('sync-group').style.display = view === 'overlay' ? 'none' : '';
     document.getElementById('overlay-group').style.display = view === 'overlay' ? '' : 'none';
     document.getElementById('stage').classList.toggle('curtain-on', view === 'overlay' && S.overlay.mode === 'curtain');
@@ -89,17 +96,18 @@ MC.App = (function () {
   }
   function toggleSync() {
     S.sync = !S.sync;
-    document.getElementById('sync-btn').classList.toggle('on', S.sync);
+    document.getElementById('sync-btn').classList.toggle('on', S.sync); reflectPressed();
     if (S.sync && S.viewers.length) MC.Viewers.relay(S.viewers[0]);
   }
   function toggleAnnotate() {
     S.annotate = !S.annotate;
-    document.getElementById('annotate-btn').classList.toggle('on', S.annotate);
+    document.getElementById('annotate-btn').classList.toggle('on', S.annotate); reflectPressed();
     document.getElementById('stage').classList.toggle('annotate', S.annotate);
     if (S.annotate) openTab('anno');
   }
   function setOverlayMode(mode) {
     document.querySelectorAll('#ov-seg button').forEach(b => b.classList.toggle('on', b.dataset.ov === mode));
+    reflectPressed();
     document.getElementById('ov-opacity-wrap').style.display = mode === 'onion' ? '' : 'none';
     document.getElementById('ov-blink-wrap').style.display = mode === 'blink' ? '' : 'none';
     document.getElementById('ov-gain-wrap').style.display = mode === 'diff' ? '' : 'none';
@@ -110,6 +118,7 @@ MC.App = (function () {
   function openTab(name) {
     document.getElementById('sidebar').classList.remove('collapsed');
     document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === name));
+    reflectPressed();
     ['images', 'anno', 'cite'].forEach(t => document.getElementById('tab-' + t).classList.toggle('hidden', t !== name));
   }
 
@@ -168,6 +177,7 @@ MC.App = (function () {
     document.getElementById('annotate-btn').classList.toggle('on', S.annotate);
     document.getElementById('stage').classList.toggle('annotate', S.annotate);
     document.getElementById('stage').classList.toggle('curtain-on', S.view === 'overlay' && S.overlay.mode === 'curtain');
+    reflectPressed();
   }
   function wire() {
     document.querySelectorAll('#view-seg button').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
