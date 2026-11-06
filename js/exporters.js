@@ -1,4 +1,4 @@
-/* exporters.js — save the comparison as a PNG figure, save / open a project
+/* exporters.js: save the comparison as a PNG figure, save / open a project
    file, and export the annotation markers as JSON or CSV. */
 
 MC.Exporters = (function () {
@@ -13,9 +13,9 @@ MC.Exporters = (function () {
       const pt = viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(a.x, a.y), true);
       const x = dx + pt.x * dpr, y = dy + pt.y * dpr;
       ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fillStyle = '#f6f2e9'; ctx.fill();
-      ctx.lineWidth = 1.5; ctx.strokeStyle = '#221d14'; ctx.stroke();
-      ctx.fillStyle = '#7e2c19'; ctx.font = '500 ' + Math.round(r * 1.0) + 'px "Plex Mono", monospace';
+      ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.lineWidth = Math.max(2, r * 0.16); ctx.strokeStyle = '#5f22b8'; ctx.stroke();
+      ctx.fillStyle = '#5f22b8'; ctx.font = '600 ' + Math.round(r * 0.95) + 'px "Epilogue", "Helvetica Neue", Arial, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText(String(idx + 1), x, y);
     });

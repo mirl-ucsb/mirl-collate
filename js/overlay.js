@@ -1,4 +1,4 @@
-/* overlay.js — overlay mode: one viewer, two stacked images, four ways to
+/* overlay.js: overlay mode: one viewer, two stacked images, four ways to
    read the difference between them (curtain swipe, onion skin, blink, and a
    pixel difference). Base is image 1, top is image 2. */
 

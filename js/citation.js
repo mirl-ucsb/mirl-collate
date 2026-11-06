@@ -1,4 +1,4 @@
-/* citation.js — build a citation for an image from the details on its card.
+/* citation.js: build a citation for an image from the details on its card.
    Returns both an HTML form (title in italics, for the panel) and a plain-text
    form (clean for pasting). Styles: Chicago note, MLA, APA, BibTeX. */
 

@@ -145,6 +145,10 @@ To regenerate the sample images, run `python3 samples/make-samples.py` (needs
   each frame.
 - **Markers** are stored in viewport coordinates and drawn as OpenSeadragon
   overlays, so they track the image under zoom.
+- **Design.** The Material / Image Research Lab's shared identity: Familjen
+  Grotesk and Epilogue on the lab's paper white, with Collate's violet
+  Risograph key. The fonts are vendored in `fonts/` under the SIL Open Font
+  License, so the tool needs no network to look right.
 - **No data leaves your machine.** Everything runs in the browser. Remote images
   can be exported to PNG only if their server allows cross-origin reading (CORS).
 
@@ -154,6 +158,7 @@ To regenerate the sample images, run `python3 samples/make-samples.py` (needs
 mirl-collate/
 ├── index.html          # the page
 ├── css/style.css
+├── fonts/              # Familjen Grotesk, Epilogue, Plex Mono (OFL)
 ├── js/
 │   ├── viewers.js      # state, OpenSeadragon panes, loading, linked pan/zoom
 │   ├── overlay.js      # curtain / onion / blink / difference

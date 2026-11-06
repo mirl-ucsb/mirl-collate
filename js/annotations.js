@@ -1,4 +1,4 @@
-/* annotations.js — numbered markers pinned to the image in viewport
+/* annotations.js: numbered markers pinned to the image in viewport
    coordinates, so they ride along as you zoom and pan. */
 
 MC.Annotations = (function () {

@@ -1,4 +1,4 @@
-/* app.js — user interface wiring: toolbar, sidebar cards, tabs, file dialogs,
+/* app.js: user interface wiring: toolbar, sidebar cards, tabs, file dialogs,
    citation panel, export menu, keyboard. Loaded last. */
 
 MC.App = (function () {
@@ -21,7 +21,7 @@ MC.App = (function () {
       const goUrl = () => { const u = urlInput.value.trim(); if (u) loadUrl(i, u); };
       urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') goUrl(); });
       const status = MC.util.h('div', { class: 'meta', id: 'status-' + i },
-        slot.source ? (slot.source.name || slot.source.url || 'loaded') : 'no image');
+        slot.source ? (slot.source.name || slot.source.url || 'loaded') : 'No image yet');
       box.append(MC.util.h('div', { class: 'card', id: 'card-' + i },
         MC.util.h('h3', null, MC.util.h('span', { class: 'dot' }), 'Image ' + (i + 1),
           MC.util.h('span', { style: { flex: '1' } }),
@@ -32,11 +32,11 @@ MC.App = (function () {
         MC.util.h('div', { class: 'field' }, urlInput),
         status,
         metaField(slot, 'label', 'Title', 'e.g. View of the south facade'),
-        metaField(slot, 'creator', 'Creator / maker'),
-        MC.util.h('div', { class: 'row2' }, metaField(slot, 'date', 'Date'), metaField(slot, 'accession', 'Accession no.')),
-        metaField(slot, 'repository', 'Repository / collection'),
+        metaField(slot, 'creator', 'Creator or maker'),
+        MC.util.h('div', { class: 'row2' }, metaField(slot, 'date', 'Date'), metaField(slot, 'accession', 'Accession number')),
+        metaField(slot, 'repository', 'Repository or collection'),
         metaField(slot, 'sourceUrl', 'Source URL'),
-        metaField(slot, 'rights', 'Rights / credit')));
+        metaField(slot, 'rights', 'Rights or credit')));
     });
   }
   function onMetaChange() { updatePaneNames(); refreshCite(); }
@@ -132,7 +132,7 @@ MC.App = (function () {
     const filled = S.slots.filter(s => s.source || hasMeta(s));
     if (!filled.length) { out.textContent = 'Add an image and its details to build a citation.'; citeText = ''; return; }
     filled.forEach(s => sel.append(MC.util.h('option', { value: String(s.i) },
-      'Image ' + (s.i + 1) + (s.meta.label ? ' — ' + s.meta.label : ''))));
+      'Image ' + (s.i + 1) + (s.meta.label ? ': ' + s.meta.label : ''))));
     if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
     const i = parseInt(sel.value, 10);
     const style = document.getElementById('cite-style').value;

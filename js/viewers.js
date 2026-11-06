@@ -1,4 +1,4 @@
-/* viewers.js — namespace, shared state, and the OpenSeadragon panes.
+/* viewers.js: namespace, shared state, and the OpenSeadragon panes.
    Handles image / IIIF loading, the side-by-side and grid layouts, and the
    linked pan-and-zoom that keeps every frame looking at the same spot. */
 
@@ -168,7 +168,7 @@ MC.Viewers = (function () {
     pane.wrap.append(MC.util.h('div', { class: 'empty-pane' },
       MC.util.h('div', { class: 'big' }, '⧉'),
       MC.util.h('div', null, 'Drop an image here, or'),
-      MC.util.h('button', { class: 'btn stamp', onclick: () => MC.App.loadDialog(i) }, 'Load image')));
+      MC.util.h('button', { class: 'btn', onclick: () => MC.App.loadDialog(i) }, 'Choose an image')));
   }
 
   function makeViewer(osdEl, tileSource, slotIndex) {
